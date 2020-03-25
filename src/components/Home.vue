@@ -4,8 +4,8 @@
         <p v-if="dataset===undefined">Loading...</p>
         <div v-if="dataset">
             <p> {{dataset.question}} </p>
-                <p class="answer" v-for="(ans, index) in answers" :key="index" @click="selectIndex(index)" :class="[index===selectedIndex ? 'selected' : '']">{{index+1}} {{ ans }}</p>
-            <button @click="checkAnswer">Submit</button><button @click="increment">Next</button>
+                <p class="answer" v-for="(ans, index) in answers" :key="index" @click="selectIndex(index)" :class="[isAnswered && index===correctIndex ? 'correct' : isAnswered && index!==correctIndex && index===selectedIndex ? 'incorrect' :  index===selectedIndex ? 'selected' : '']">{{index+1}} {{ ans }}</p>
+            <button @click="checkAnswer" :disabled="selectedIndex===null || isAnswered">Submit</button><button @click="increment">Next</button>
         </div>
     </div>
 
@@ -22,7 +22,8 @@ export default {
         return{
             selectedIndex: null,
             answersShuffled: [],
-            correctIndex: null
+            correctIndex: null,
+            isAnswered: false
         }
     },
     computed: {
@@ -37,6 +38,7 @@ export default {
             immediate: true,
             handler(){
                 this.selectedIndex=null,
+                this.isAnswered=false,
                 this.shuffleAnswer()
             }
         }
@@ -55,6 +57,7 @@ export default {
             if(this.selectedIndex===this.correctIndex){
                 isCorrect=true
             }
+            this.isAnswered=true;
             this.handleCorrect(isCorrect)
         }
     }
@@ -73,5 +76,12 @@ export default {
     }
     .selected{
         background: lightblue;
+    }
+    .correct{
+        background: lightgreen;
+    }
+    .incorrect{
+        background: red;
+        color: white
     }
 </style>

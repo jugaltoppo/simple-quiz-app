@@ -2,7 +2,9 @@
 
     <div>
         <h1>score: {{correctAnswer}}/{{attemptedQuestion}}</h1>
-        <button>Reset</button>
+        <form>
+            <button>Reset</button>
+        </form>
     </div>
 
 </template>
